@@ -94,11 +94,9 @@ class UserController {
         return res.status(400).json({ message: "utilisateur non trouvé" });
       }
       if (!user.isVerified) {
-        return res
-          .status(401)
-          .json({
-            message: "Compte non vérifié. Veuillez vérifier vos identifiants.",
-          });
+        return res.status(401).json({
+          message: "Compte non vérifié. Veuillez vérifier vos identifiants.",
+        });
       }
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
