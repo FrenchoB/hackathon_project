@@ -5,6 +5,7 @@ import "dotenv/config";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const port = process.env.PORT;
+const CLIENT_URL=process.env.CLIENT_URL
 
 class UserController {
   async register(req, res) {
