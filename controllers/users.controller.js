@@ -2,10 +2,11 @@ import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import sendEmail from "../utils/sendEmail.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const port = process.env.PORT;
-const CLIENT_URL=process.env.CLIENT_URL
+const CLIENT_URL = process.env.CLIENT_URL;
 
 class UserController {
   async register(req, res) {
