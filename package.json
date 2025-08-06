@@ -12,6 +12,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^8.17.0",
     "multer": "^2.0.2",
+    "nodemailer": "^7.0.5",
     "nodemon": "^3.1.10",
     "tailwind": "^2.3.1"
   },
