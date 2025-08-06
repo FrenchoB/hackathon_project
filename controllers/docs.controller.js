@@ -1,5 +1,6 @@
 import Doc from "../models/Doc.js";
 import cloudinary from "../cloudinary/cloudinary.js";
+import fs from "fs";
 
 class DocController {
   async getAllDocs(req, res) {
@@ -61,7 +62,14 @@ class DocController {
         resource_type: "auto",
       });
 
-      const normalizedTags = tags?.map((tag) => tag.toLowerCase());
+      // Supprimer le fichier temporaire
+      fs.unlink(req.file.path, (err) => {
+        if (err)
+          console.error(
+            "Erreur lors de la suppression du fichier temporaire :",
+            err.message
+          );
+      });
 
       // Création du document dans MongoDB
       const newDoc = new Doc({
@@ -70,7 +78,7 @@ class DocController {
         format,
         file: result.secure_url,
         public_id: result.public_id,
-        tags: normalizedTags,
+        tags,
         createdBy: req.user?._id,
       });
 
@@ -114,7 +122,7 @@ class DocController {
       if (title) doc.title = title;
       if (description) doc.description = description;
       if (format) doc.format = format;
-      if (tags) doc.tags = tags.map((tag) => tag.toLowerCase());
+      if (tags) doc.tags = tags;
 
       if (req.file?.path) {
         // Supprimer l'ancien fichier sur Cloudinary
@@ -126,6 +134,15 @@ class DocController {
         const result = await cloudinary.uploader.upload(req.file.path, {
           folder: "hackathon_docs",
           resource_type: "auto",
+        });
+
+        // Supprimer le fichier temporaire
+        fs.unlink(req.file.path, (err) => {
+          if (err)
+            console.error(
+              "Erreur lors de la suppression du fichier temporaire :",
+              err.message
+            );
         });
 
         // Mise à jour des infos Cloudinary
