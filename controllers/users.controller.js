@@ -26,6 +26,7 @@ class UserController {
       if (userExists) {
         return res.status(400).json({ message: "Email déja utilisé" });
       }
+
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = new User({
@@ -36,6 +37,8 @@ class UserController {
         isVerified: false,
       });
 
+      console.log(newUser);
+
       await newUser.save();
 
       const verificationToken = jwt.sign({ id: newUser._id }, JWT_SECRET, {
@@ -43,14 +46,26 @@ class UserController {
       });
 
       const verificationUrl = `${
-        CLIENT_URL || `http://localhost:${port}`
-      }/users/verify`;
+        `${CLIENT_URL}/users/verify/${verificationToken}` ||
+        `http://localhost:${port}/users/verify/${verificationToken}`
+      }`;
 
       await sendEmail({
         to: newUser.email,
         subject: "Vérifier votre compte",
-        html: `Bonjour ${username}, <br><br>Merci de vérifier votre compte en cliquant sur ce lien : <a href="${verificationUrl}">Vérifier mon compte</a><br><br>Ce lien est valable 24h.`,
+        html: `Bonjour ${username}, <br><br>Merci de vérifier votre compte en cliquant sur ce lien : <a href="${verificationUrl}">Vérifier mon compte</a><br><br>Ce lien est valable 7 jours.`,
       });
+
+      res.status(201).json({
+        message: "Utilisateur créé. Un email de vérification a été envoyé",
+        user: {
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+          role: newUser.role,
+        },
+      });
+      
     } catch (error) {
       console.error("Register error:", error);
       res
@@ -66,13 +81,11 @@ class UserController {
 
       if (!decoded.id)
         return res.status(400).json({ message: "Token invalide." });
-
       const user = await User.findById(decoded.id);
       if (!user)
         return res.status(400).json({ message: "Utilisateur introuvable." });
       if (user.isVerified)
         return res.status(400).json({ message: "Compte déjà vérifié." });
-
       user.isVerified = true;
       await user.save();
 
@@ -91,23 +104,27 @@ class UserController {
           .status(400)
           .json({ message: "Tous les champs sont obligatoires" });
       }
-      const user = await findOne({ email });
+
+      const user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({ message: "utilisateur non trouvé" });
       }
+
       if (!user.isVerified) {
         return res.status(401).json({
           message: "Compte non vérifié. Veuillez vérifier vos identifiants.",
         });
       }
-      const isPasswordValid = await bcrypt.compare(password, user.password);
 
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+  
       if (!isPasswordValid) {
         return res.status(400).json({ message: "identifiants incorrects" });
       }
 
       req.session.user = user;
-      const token = jwt.sign({ sub: user._id }, JWT_SECRET, {
+ 
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
 
@@ -121,6 +138,7 @@ class UserController {
       //Section pour admin
     } catch (error) {
       res.status(500).json({ error: "Erreur lors de la connexion" });
+      console.error(error);
     }
   }
 
