@@ -2,16 +2,18 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.2",
     "joi": "^18.0.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.17.0",
     "multer": "^2.0.2",
     "nodemon": "^3.1.10",
-    "tailwind": "^4.0.0"
+    "tailwind": "^2.3.1"
   },
   "type": "module",
   "scripts": {

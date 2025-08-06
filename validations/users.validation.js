@@ -12,7 +12,7 @@ export const createUserSchema = Joi.object({
       "string.email": "Le format de l'email est invalide.",
       "string.empty": "L'email est requis.",
     }),
-  password: Joi.pattern(new RegExp("^[a-zA-Z0-9]{6,30}$")).required().messages({
+  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{6,30}$")).required().messages({
     "string.min": "Le mot de passe doit contenir au moins 6 caractères.",
     "string.empty": "Le mot de passe est requis.",
   }),
