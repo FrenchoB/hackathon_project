@@ -1,6 +1,7 @@
 import Doc from "../models/Doc.js";
 import cloudinary from "../cloudinary/cloudinary.js";
 import fs from "fs";
+import say from "say";
 
 class DocController {
   async getAllDocs(req, res) {
@@ -34,8 +35,6 @@ class DocController {
         return res.status(400).json({ message: "Aucun tag fourni." });
       }
 
-      const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase());
-
       const docs = await Doc.find({
         tags: { $in: tagsArray },
       });
@@ -50,6 +49,12 @@ class DocController {
   async createDoc(req, res) {
     try {
       const { title, description, format, tags } = req.body;
+
+      if (!title || !description || !format || !tags || !req.file?.path) {
+        return res
+          .status(400)
+          .json({ message: "Tous les champs sont obligatoires" });
+      }
 
       // Vérifie que le fichier est bien présent
       if (!req.file?.path) {
@@ -84,6 +89,7 @@ class DocController {
 
       await newDoc.save();
       res.status(201).json(newDoc);
+      say.speak("Creation du document ok !");
     } catch (err) {
       console.error("Erreur lors de la création du document :", err.message);
       res.status(500).json({ message: err.message });
