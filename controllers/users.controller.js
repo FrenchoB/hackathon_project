@@ -214,8 +214,7 @@ class UserController {
       const resetUrl = `${CLIENT_URL}/api/auth/reset-password/${resetToken}`;
 
       await sendEmail({
-        to: newUser.email,
-        //to: "wazabi64000@gmail.com", // ← temporaire
+        to: user.email,
         subject: "Réinitialisation de mot de passe",
         html: `<p>Bonjour,</p>
                <p>Pour réinitialiser votre mot de passe, cliquez sur ce lien :</p>
