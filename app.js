@@ -7,6 +7,8 @@ import cors from "cors";
 import usersRoutes from "./routes/users.routes.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
+//import xss from "xss-clean"; // A remplacer par sanitize-html qui n'est pas déprécié
 
 const app = express();
 const port = process.env.PORT;
@@ -27,6 +29,15 @@ const corsOptions = {
   credentials: true,
 };
 
+// Limiteur : 100 requêtes par IP toutes les 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limite chaque IP à 100 requêtes
+  message: "Trop de requêtes, réessayez plus tard.",
+  standardHeaders: true, // Retourne les infos de rate limit dans les headers
+  legacyHeaders: false, // Désactive les vieux headers `X-RateLimit-*`
+});
+
 app.set("trust proxy", 1);
 
 app.use(helmet());
@@ -34,6 +45,8 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser()); //Pour parser les cookies
+app.use(limiter);
+//app.use(xss()); // Pour nettoyer les entrées utilisateur contre les attaques XSS
 app.use(
   session({
     secret: "keyboard cat",
