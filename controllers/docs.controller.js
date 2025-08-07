@@ -7,7 +7,11 @@ class DocController {
   async getAllDocs(req, res) {
     try {
       const docs = await Doc.find();
-      res.status(200).json(docs);
+      res.render("pages/library", {
+        style: "",
+        title: "Librairie",
+        error: null,
+      });
     } catch (err) {
       console.log(err.message);
       res.status(500).json({ message: err.message });

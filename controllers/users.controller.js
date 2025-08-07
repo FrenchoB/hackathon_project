@@ -73,7 +73,7 @@ class UserController {
       //   },
       // });
 
-      res.redirect("/login");
+      res.redirect("/users/login");
     } catch (error) {
       console.error("Register error:", error);
       res
@@ -97,7 +97,7 @@ class UserController {
       user.isVerified = true;
       await user.save();
 
-      res.json({ message: "Compte vérifié avec succès." });
+      res.redirect("/docs/");
     } catch (error) {
       console.error(error);
       res.status(400).json({ message: "Token invalide ou expiré." });
@@ -142,7 +142,7 @@ class UserController {
         sameSite: "strict",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       }); // 7 jours})
-      res.json({ message: "Connexion réussie" });
+      res.redirect("/docs");
       //Section pour admin
     } catch (error) {
       res.status(500).json({ error: "Erreur lors de la connexion" });

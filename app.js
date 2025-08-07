@@ -18,6 +18,7 @@ const port = process.env.PORT;
 const whitelist = [
   "https://hackathon-project-fkel.onrender.com",
   "http://localhost:5000",
+  "null",
 ];
 
 const corsOptions = {
@@ -40,7 +41,6 @@ const limiter = rateLimit({
   standardHeaders: true, // Retourne les infos de rate limit dans les headers
   legacyHeaders: false, // Désactive les vieux headers `X-RateLimit-*`
 });
-
 
 //Middlewares
 app.use(express.static("public")); //Pour servir les fichiers statiques (CSS, images, etc.)
