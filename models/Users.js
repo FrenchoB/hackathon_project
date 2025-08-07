@@ -30,8 +30,8 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    accessibilité: {
-      type: String,
+    accessibilite: {
+      type: [String],
       enum: [
         "Sourd",
         "Aveugle",
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
         "Daltonien",
         "Non défini",
       ],
-      default: "Non défini",
+      default: ["Non défini"],
     },
   },
   { timestamps: true }

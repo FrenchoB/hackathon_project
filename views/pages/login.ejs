@@ -1,0 +1,32 @@
+<div class="flex flex-col items-center mx-auto my-auto">
+  <div class="flex flex-col items-center gap-4 align-center">
+    <h3 class="">LOG IN</h3>
+    <p class="text-[16px]">Connectez-vous à votre compte</p>
+  </div>
+  <% if (error) { %>
+  <div class="error"><%= error %></div>
+  <% } %>
+  <div class="flex flex-col">
+    <form action="/users/login" method="post" class="flex flex-col">
+      <div class="">
+        <label for="email">Email</label>
+        <input type="text" name="email" placeholder="Email" class="" required />
+      </div>
+      <div>
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Mot de passe"
+          class=""
+          required
+        />
+      </div>
+      <div>Pas de compte ? <a href="/users/register">Inscrivez-vous</a></div>
+
+      <div>
+        <button type="submit" class="">Se connecter</button>
+      </div>
+    </form>
+  </div>
+</div>

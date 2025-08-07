@@ -6,6 +6,10 @@ import UserController from "../controllers/users.controller.js";
 import express from "express";
 const router = express.Router();
 
+router.get("/login", UserController.indexLogin);
+
+router.get("/register", UserController.registerForm);
+
 router.get("/verify/:token", UserController.verifyEmail);
 
 router.post("/login", UserController.login);
@@ -15,4 +19,3 @@ router.post("/logout", UserController.logout);
 router.post("/register", validate(createUserSchema), UserController.register);
 
 export default router;
-

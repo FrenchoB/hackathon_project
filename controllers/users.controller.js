@@ -12,6 +12,12 @@ class UserController {
   async register(req, res) {
     try {
       const { username, email, password, confirmPassword, role } = req.body;
+
+      let accessibilite = req.body.accessibilite;
+      if (!Array.isArray(accessibilite)) {
+        accessibilite = accessibilite ? [accessibilite] : ["Non défini"];
+      }
+
       if (!username || !email || !password || !confirmPassword) {
         return res
           .status(400)
@@ -35,6 +41,7 @@ class UserController {
         password: hashedPassword,
         role: role || "user",
         isVerified: false,
+        accessibilite,
       });
 
       console.log(newUser);
@@ -65,7 +72,6 @@ class UserController {
           role: newUser.role,
         },
       });
-      
     } catch (error) {
       console.error("Register error:", error);
       res
@@ -117,13 +123,13 @@ class UserController {
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
-  
+
       if (!isPasswordValid) {
         return res.status(400).json({ message: "identifiants incorrects" });
       }
 
       req.session.user = user;
- 
+
       const token = jwt.sign({ id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
@@ -153,6 +159,28 @@ class UserController {
       res.json({ message: "Déconnexion réussie" });
     } catch (error) {
       res.status(500).json({ error: "Erreur lors de la déconnextion" });
+    }
+  }
+
+  async indexLogin(req, res) {
+    try {
+      res.render("pages/login", {
+        style: "",
+        title: "connexion",
+        error: null,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Erreur lors de l'affichage du login : " + err);
+    }
+  }
+
+  async registerForm(req, res) {
+    try {
+      res.render("pages/register", { title: "Inscription" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Erreur lors de l'affichage du login : " + err);
     }
   }
 }
