@@ -50,6 +50,7 @@ app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride("_method")); //Pour utiliser les méthodes PUT et DELETE dans les formulaires
 app.use(cookieParser()); //Pour parser les cookies
 app.use(limiter);
 //app.use(xss()); // Pour nettoyer les entrées utilisateur contre les attaques XSS

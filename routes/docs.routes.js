@@ -7,10 +7,13 @@ const upload = multer({ dest: "uploads/" });
 const docsRouter = Router();
 
 docsRouter.get("/", docsController.getAllDocs);
-docsRouter.get("/:id", docsController.getDocById);
+docsRouter.get("/add", docsController.docForm);
+
 docsRouter.post("/tags", docsController.getDocsByTags);
-docsRouter.post("/", upload.single("file"), docsController.createDoc);
+docsRouter.post("/add", upload.single("file"), docsController.createDoc);
 docsRouter.delete("/:id", docsController.deleteDoc);
 docsRouter.put("/:id", upload.single("file"), docsController.updateDoc);
+
+docsRouter.get("/:id", docsController.getDocById);
 
 export default docsRouter;

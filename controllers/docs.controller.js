@@ -7,7 +7,21 @@ class DocController {
   async getAllDocs(req, res) {
     try {
       const docs = await Doc.find();
-      res.render("pages/library", {
+      res.status(200).render("pages/library", {
+        docs,
+        style: "",
+        title: "Librairie",
+        error: null,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ message: err.message });
+    }
+  }
+
+  async docForm(req, res) {
+    try {
+      res.status(200).render("pages/addMedia", {
         style: "",
         title: "Librairie",
         error: null,
