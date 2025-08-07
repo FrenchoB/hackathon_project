@@ -1,31 +1,39 @@
-import dotenv from "dotenv";
-import dotenv from "dotenv";
+import "dotenv/config";
 import express from "express";
 import connectDB from "./database/database.js";
 import docsRouter from "./routes/docs.routes.js";
-import helmet from 'helmet';
-import cors from 'cors';
-
-dotenv.config();
-
-
-
-import docsRouter from "./routes/docs.routes.js";
-
-dotenv.config();
-
-const app = express();
-const port = process.env.PORT;
-app.set('trust proxy', 1);
-
+import helmet from "helmet";
+import cors from "cors";
 import usersRoutes from "./routes/users.routes.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
+const app = express();
+const port = process.env.PORT;
+const whitelist = [
+  "https://hackathon-project-fkel.onrender.com",
+  "http://localhost:5000",
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // Requête serveur à serveur
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true); // Origine autorisée
+    } else {
+      callback(new Error("Origine non autorisée par CORS"));
+    }
+  },
+  credentials: true,
+};
+
+app.set("trust proxy", 1);
+
 app.use(helmet());
-app.use(cors({ origin: 'https://localhost:5000', credential: true }));
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser()); //Pour parser les cookies
 app.use(
   session({
     secret: "keyboard cat",
@@ -36,7 +44,10 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.headers["x-forwarded-proto"] !== "https"
+  ) {
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
   next();
@@ -46,31 +57,8 @@ app.use((req, res, next) => {
   res.locals.style = "main"; // valeur par défaut
   next();
 });
-app.use(cookieParser()); //Pour parser les cookies
+
 app.use("/users", usersRoutes);
-
-app.use("/docs", docsRouter);
-import usersRoutes from "./routes/users.routes.js";
-import session from "express-session";
-import cookieParser from "cookie-parser";
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
-app.use((req, res, next) => {
-  res.locals.style = "main"; // valeur par défaut
-  next();
-});
-app.use(cookieParser()); //Pour parser les cookies
-app.use("/users", usersRoutes);
-
 app.use("/docs", docsRouter);
 
 app.listen(port, () => {
