@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import sendEmail from "../utils/sendEmail.js";
+import crypto from "crypto";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const port = process.env.PORT;
@@ -126,13 +127,11 @@ class UserController {
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
-
       if (!isPasswordValid) {
         return res.status(400).json({ message: "identifiants incorrects" });
       }
 
       req.session.user = user;
-
 
       const token = jwt.sign({ id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
