@@ -41,7 +41,6 @@ const limiter = rateLimit({
   legacyHeaders: false, // Désactive les vieux headers `X-RateLimit-*`
 });
 
-
 //Middlewares
 app.use(express.static("public")); //Pour servir les fichiers statiques (CSS, images, etc.)
 app.use(express.static("uploads")); //Pour servir les fichiers uploadés
@@ -50,6 +49,7 @@ app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride("_method")); //Pour utiliser les méthodes PUT et DELETE dans les formulaires
 app.use(cookieParser()); //Pour parser les cookies
 app.use(limiter);
 //app.use(xss()); // Pour nettoyer les entrées utilisateur contre les attaques XSS
