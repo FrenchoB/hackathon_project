@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import dotenv from "dotenv";
-=======
 import "dotenv/config";
->>>>>>> 8367102f0963d834e71d10aa4fde4693cf33f661
 import express from "express";
 import ejs from "ejs";
 import expressLayouts from "express-ejs-layouts";
@@ -11,15 +7,6 @@ import connectDB from "./database/database.js";
 import docsRouter from "./routes/docs.routes.js";
 import helmet from "helmet";
 import cors from "cors";
-<<<<<<< HEAD
-
-dotenv.config();
-
-const app = express();
-const port = process.env.PORT;
-
-=======
->>>>>>> 8367102f0963d834e71d10aa4fde4693cf33f661
 import usersRoutes from "./routes/users.routes.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -54,26 +41,18 @@ const limiter = rateLimit({
   legacyHeaders: false, // Désactive les vieux headers `X-RateLimit-*`
 });
 
-app.set("trust proxy", 1);
 
 //Middlewares
 app.use(express.static("public")); //Pour servir les fichiers statiques (CSS, images, etc.)
 app.use(express.static("uploads")); //Pour servir les fichiers uploadés
 app.use(expressLayouts); //Pour utiliser express-ejs-layouts
 app.use(helmet());
-<<<<<<< HEAD
-app.use(cors({ origin: "https://localhost:5000", credential: true }));
-app.use(express.urlencoded({ extended: true })); //Créer le body permettant de récupérer les données du formulaire
-app.use(express.json());
-app.use(methodOverride("_method")); //Pour utiliser les méthodes PUT et DELETE dans les formulaires
-=======
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser()); //Pour parser les cookies
 app.use(limiter);
 //app.use(xss()); // Pour nettoyer les entrées utilisateur contre les attaques XSS
->>>>>>> 8367102f0963d834e71d10aa4fde4693cf33f661
 app.use(
   session({
     secret: "keyboard cat",
@@ -98,13 +77,10 @@ app.use((req, res, next) => {
 
 app.use("/users", usersRoutes);
 app.use("/docs", docsRouter);
-<<<<<<< HEAD
 
 //Settings
 app.set("trust proxy", 1);
 app.set("view engine", "ejs"); //Pour utiliser EJS comme moteur de template
-=======
->>>>>>> 8367102f0963d834e71d10aa4fde4693cf33f661
 
 app.listen(port, () => {
   connectDB();
