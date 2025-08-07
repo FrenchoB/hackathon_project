@@ -126,11 +126,13 @@ class UserController {
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
+
       if (!isPasswordValid) {
         return res.status(400).json({ message: "identifiants incorrects" });
       }
 
       req.session.user = user;
+
 
       const token = jwt.sign({ id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
