@@ -63,15 +63,17 @@ class UserController {
         html: `Bonjour ${username}, <br><br>Merci de vérifier votre compte en cliquant sur ce lien : <a href="${verificationUrl}">Vérifier mon compte</a><br><br>Ce lien est valable 7 jours.`,
       });
 
-      res.status(201).json({
-        message: "Utilisateur créé. Un email de vérification a été envoyé",
-        user: {
-          id: newUser._id,
-          username: newUser.username,
-          email: newUser.email,
-          role: newUser.role,
-        },
-      });
+      // res.status(201).json({
+      //   message: "Utilisateur créé. Un email de vérification a été envoyé",
+      //   user: {
+      //     id: newUser._id,
+      //     username: newUser.username,
+      //     email: newUser.email,
+      //     role: newUser.role,
+      //   },
+      // });
+
+      res.redirect("/login");
     } catch (error) {
       console.error("Register error:", error);
       res
