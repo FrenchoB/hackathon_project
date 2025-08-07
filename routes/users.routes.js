@@ -1,5 +1,6 @@
 import { createUserSchema } from "../validations/users.validation.js";
 import { validate } from "../middlewares/validator.js";
+import { loginLimiter } from "../middlewares/authentification.js";
 
 // import { authorize, isAuthJwt } from "../middlewares/authentification.js";
 import UserController from "../controllers/users.controller.js";
@@ -12,7 +13,7 @@ router.get("/register", UserController.registerForm);
 
 router.get("/verify/:token", UserController.verifyEmail);
 
-router.post("/login", UserController.login);
+router.post("/login", loginLimiter, UserController.login);
 
 router.post("/logout", UserController.logout);
 

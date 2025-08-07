@@ -1,6 +1,10 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "@tailwindcss/vite": "^4.1.11",
+=======
+    "axios": "^1.11.0",
+>>>>>>> 8367102f0963d834e71d10aa4fde4693cf33f661
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
     "cookie-parser": "^1.4.7",
@@ -9,6 +13,7 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
+    "express-rate-limit": "^8.0.1",
     "express-session": "^1.18.2",
     "helmet": "^8.1.0",
     "joi": "^18.0.0",
