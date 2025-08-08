@@ -13,13 +13,16 @@ https://hackathon-project-fkel.onrender.com
 
 | Méthode | URL                    | Description                         | Auth requis |
 |---------|------------------------|-----------------------------------|-------------|
+| GET    | /users/register         | Formulaire d'inscription            | Non         |
 | POST    | /users/register         | Inscription utilisateur            | Non         |
+| GET    | /users/login            | Formulaire de connexion             | Non         |
 | POST    | /users/login            | Connexion utilisateur              | Non         |
 | POST    | /users/verify/:token            | Vérification utilisateur              | Non         |
 | POST    | /users/logout            | Déconnexion utilisateur              | Oui         |
 | GET     | /docs            | Lister tous les documents        |         |
 | GET     | /docs/:id           | Récupérer un document par id        |         |
-| POST    | /docs            | Créer un document                |       |
+| GET    | /docs/add            | Formulaire création document                |       |
+| POST    | /docs/add            | Créer un document                |       |
 | DELETE     | /docs/:id              | Supprimer un document          |         |
 | PUT    | /docs/:id              | Modifier un document     |   |
 
@@ -108,6 +111,7 @@ https://hackathon-project-fkel.onrender.com
 ---
 
 ##  Remarques importantes
+
 
 - L’image doit être envoyée via un champ `file` dans un formulaire `multipart/form-data`.
 
