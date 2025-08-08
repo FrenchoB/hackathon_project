@@ -106,8 +106,10 @@ class DocController {
       });
 
       await newDoc.save();
-      res.status(201).json(newDoc);
-      say.speak("Creation du document ok !");
+      //res.status(201).json(newDoc);
+      //say.speak("Creation du document ok !");
+
+      res.redirect("/docs");
     } catch (err) {
       console.error("Erreur lors de la création du document :", err.message);
       res.status(500).json({ message: err.message });
@@ -126,7 +128,8 @@ class DocController {
 
       // supression de MongoDB
       await doc.deleteOne();
-      res.status(200).json({ message: "Document supprimé avec succès." });
+      //res.status(200).json({ message: "Document supprimé avec succès." });
+      res.redirect("/docs");
     } catch (err) {
       console.error("Erreur lors de la suppression :", err.message);
       res.status(500).json({ message: err.message });

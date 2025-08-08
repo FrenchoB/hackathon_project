@@ -11,7 +11,7 @@ docsRouter.get("/add", docsController.docForm);
 
 docsRouter.post("/tags", docsController.getDocsByTags);
 docsRouter.post("/add", upload.single("file"), docsController.createDoc);
-docsRouter.delete("/:id", docsController.deleteDoc);
+docsRouter.post("/:id/delete", docsController.deleteDoc);
 docsRouter.put("/:id", upload.single("file"), docsController.updateDoc);
 
 docsRouter.get("/:id", docsController.getDocById);
