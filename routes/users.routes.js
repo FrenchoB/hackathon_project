@@ -8,11 +8,11 @@ const router = express.Router();
 
 router.post("/register", validate(createUserSchema), UserController.register);
 
-router.get("/register", UserController.register);
+router.get("/register", UserController.registerForm);
 
 router.get("/verify/:token", UserController.verifyEmail);
 
-router.get("/login", UserController.login);
+router.get("/login", UserController.indexLogin);
 
 router.post("/login", loginLimiter, UserController.login);
 
