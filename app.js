@@ -36,7 +36,7 @@ const corsOptions = {
 // Limiteur : 100 requêtes par IP toutes les 15 minutes
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 heure
-  max: 15, // Limite chaque IP à 100 requêtes
+  max: 50, // Limite chaque IP à 100 requêtes
   message: "Trop de requêtes, réessayez plus tard.",
   standardHeaders: true, // Retourne les infos de rate limit dans les headers
   legacyHeaders: false, // Désactive les vieux headers `X-RateLimit-*`
